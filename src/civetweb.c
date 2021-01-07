@@ -6818,7 +6818,7 @@ pull_inner(FILE *fp,
 		/* We already know there is no more data buffered in conn->buf
 		 * but there is more available in the SSL layer. So don't poll
 		 * conn->client.sock yet. */
-		struct pollfd pfd[1];
+		struct mg_pollfd pfd[1];
 		int pollres;
 
 		pfd[0].fd = conn->client.sock;
@@ -19015,7 +19015,7 @@ worker_thread_run(struct mg_connection *conn)
 			/* HTTPS connection */
 			if (mbed_ssl_accept(&conn->ssl,
 			                    conn->dom_ctx->ssl_ctx,
-			                    &conn->client.sock)
+			                    (int*)&conn->client.sock)
 			    == 0) {
 				/* conn->dom_ctx is set in get_request */
 				/* process HTTPS connection */
